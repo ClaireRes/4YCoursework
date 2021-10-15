@@ -14,6 +14,7 @@ Since removal of a node is not atomic, locking strategies are needed to prevent 
 a node while it is involved in a deletion.
 
 This program uses mutexes and synchronised locking to address this problem as follows:
+
     1. All nodes in the list are assigned a mutex.
     2. The doubly linked list maintains a map of each thread's position in the list.
     3. In order to traverse the list, a thread must acquire a lock on a node via its mutex before it can move to that node's position.
