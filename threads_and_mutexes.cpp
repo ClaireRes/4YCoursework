@@ -57,7 +57,7 @@ private:
 
 // Insert a new node at the head of the list
 void DoublyLinkedList::insert_head(std::string data) {
-    Node *node = new(Node);
+    Node* node = new(Node);
     node->data = data;
     node->next = NULL;
     node->prev = NULL;
@@ -92,14 +92,13 @@ std::string DoublyLinkedList::get_head_str() {
 // Uses hand-over-hand locking to cope with concurrent thread access to list.
 std::string DoublyLinkedList::get_next_str() {
     std::thread::id t = std::this_thread::get_id();
-    Node *current_node = this->thread_pos[t];
+    Node* current_node = this->thread_pos[t];
     if (current_node == NULL) {
         // thread is already at the end of the list, return empty string
         std::cout << "No thread position in list\n";
         return std::string();
     }
-    Node *next_node = current_node->next;
-    next_node = this->thread_pos[t]->next;
+    Node* next_node = current_node->next;
     if (next_node != NULL) {
         // acquire lock on node we're going to before updating thread position
         next_node->m.lock();
@@ -120,14 +119,14 @@ std::string DoublyLinkedList::get_next_str() {
 // Uses synchronized locking to cope with concurrent thread access to list.
 void DoublyLinkedList::delete_node() {
     std::thread::id t = std::this_thread::get_id();
-    Node *current_node = this->thread_pos[t];
+    Node* current_node = this->thread_pos[t];
 
     if (current_node != NULL) {
         // release lock on current node to prevent deadlock when locking below
         current_node->m.unlock();
 
-        Node *next_node = current_node->next;
-        Node *prev_node = current_node->prev;
+        Node* next_node = current_node->next;
+        Node* prev_node = current_node->prev;
 
         // create unique lock for current node
         // use synchronised locking with dependent nodes for critical node deletion sections
