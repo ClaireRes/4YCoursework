@@ -1,14 +1,22 @@
-### Threads and Mutexes
+# Coursework Projects
 
-This source file contains a simple C++ program for demonstrating the use of mutexes to 
-handle access to a shared resource with multi-threaded code, as part of the Computer Systems course coursework from my university.
+### Concurrency with threads and mutexes
 
-The program creates a doubly linked list, with nodes containing random alphabetical strings.
+```threads_and_mutexes.cpp``` is a simple C++ program to demonstrate the use of mutexes for sharing data in multi-threaded code.
+
+I completed this for the Computer Systems coursework from the 4th year of my Engineering course at university.
+
+#### 📓 Task
+
+The program creates a doubly linked list, with nodes containing random alphabetical strings with lengths between 3-9 characters.
+
 It spawns two worker threads, both with access to the list, to repeat the following until the list is empty and the program exits:
 
-    1. Thread 1: iterate over the list from head->tail, concatenating all the values in the list.
+    1. Thread 1: iterate over the list starting from the head, concatenating all the values in the list.
         Print out the concatenated string once the end of the list is reached.
     2. Thread 2: randomly select a node to delete from the list. Sleep for 500 ms before repeating.
+
+#### 💻 Strategy
 
 Since removal of a node is not atomic, locking strategies are needed to prevent another thread from accessing
 a node while it is involved in a deletion.
